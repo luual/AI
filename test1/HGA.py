@@ -109,12 +109,9 @@ def recorder(generation, number):
         print max_rank, generation[0]
         mean = 0
         for elem in generation:
-            #print(float(score(elem) / (len(WORD) * 1.0)), elem)
             mean += float(score(elem) / (len(WORD) * 1.0))
             print mean
         rmean = float(mean / (len(generation) * 1.0))
-        #print rmean
-        #print float(mean / (len(generation) * 1.0))
         f.write("{}:{}\n".format(number, rmean))
 
 #if __name__ == "__main__":
