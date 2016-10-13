@@ -11,7 +11,9 @@ DIAGRAM_WALLS1 = [(21, 0),(21, 1), (21, 2),(21, 3),(21, 4),(21, 5),
         (22, 0),(22, 1),(22, 2),(22, 3),(22, 4),(22, 5),
         (23, 0),(23, 1),(23, 2),(23, 3),(23, 4),(23, 5),
         (24, 4),(24, 4),(25, 4),(26, 4),(26, 5),
-        (24, 5),(24, 5),(25, 5),(26, 5)]
+        (24, 5),(24, 5),(25, 5),(26, 5),
+        (4, 10), (4, 11), (4, 12), (4,13), (4, 14),
+        (5, 10), (5, 11), (5, 12), (5,13), (5, 14)]
 
 class SimpleGraph:
     def __init__(self):
@@ -26,7 +28,7 @@ class SquareGrid:
         self.wall = []
     def in_bounds(self, id):
         (x, y) = id
-        return 0 <= x < self.width and 0 <= self.height
+        return 0 <= x < self.width and 0 <= y < self.height
     def passable(self, id):
         return id not in self.walls
     def neighbors(self, id):
@@ -78,6 +80,7 @@ def InitGrid():
     ex_grid = SquareGrid(30, 15)
     ex_grid.walls = DIAGRAM_WALLS1
     DrawGrid(ex_grid)
+    return ex_grid
 
 def DrawGrid(grid):
     string = ''
@@ -89,6 +92,10 @@ def DrawGrid(grid):
                 string += '#'
         string += '\n'
     print(string)
+
+def DrawGrid2(templategrid, grid2):
+    # To do implement the draw
+    pass
 
 def BreathFirstSearch(graph, start):
     frontier = Queue()
@@ -104,7 +111,24 @@ def BreathFirstSearch(graph, start):
                 frontier.put(next)
                 visited[next] = True
 
+def BreathFirstSearch2(graph, start):
+    frontier = Queue()
+    frontier.put(start)
+    came_from = {}
+    came_from[start] = None
+
+    while not frontier.empty():
+        current = frontier.get()
+        print("Visiting {}".format(current))
+        for next in graph.neighbors(current):
+            if next not in came_from:
+                frontier.put(next)
+                came_from[next] = None
+        return came_from
+
+
+
 if __name__ == "__main__":
-    BreathFirstSearch(InitGraph(), 'A');
-    InitGrid()
+    BreathFirstSearch(InitGraph(), 'A')
+    parent = BreathFirstSearch2(InitGrid(), (8, 7))
 
